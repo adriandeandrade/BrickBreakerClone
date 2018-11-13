@@ -4,13 +4,37 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    [SerializeField] private float initialVelocity = 600f;
+
+    [SerializeField] private GameObject hitParticle;
+    [SerializeField] private AudioClip bounce;
+
+    private AudioSource audioSource;
+    private Rigidbody rBody;
+    private bool inPlay;
+
+    private void Awake()
+    {
+        rBody = GetComponent<Rigidbody>();
+        audioSource = Camera.main.gameObject.GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if(Input.GetButtonDown("Fire1") && !inPlay)
+        {
+            transform.parent = null;
+            inPlay = true;
+            rBody.isKinematic = false;
+            rBody.AddForce(new Vector3(initialVelocity, initialVelocity, 0));
+        }
+    }
+
     private void OnCollisionEnter(Collision other)
     {
-        GameObject paddle = other.gameObject.GetComponent<PaddleController>().gameObject;
-
-        if(paddle)
-        {
-            
-        }
+        Vector3 spawnPoint = other.collider.ClosestPoint(transform.position);
+        GameObject ps = Instantiate(hitParticle, spawnPoint, Quaternion.identity);
+        Destroy(ps, 3f);
+        audioSource.PlayOneShot(bounce);
     }
 }

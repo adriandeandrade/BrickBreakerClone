@@ -15,23 +15,13 @@ public class PaddleController : MonoBehaviour
 
     private void Update()
     {
-        float x = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
-
-        transform.Translate(new Vector3(x, 0f, 0));
-
-        CheckBounds();
+        Movement();
     }
 
-    private void CheckBounds()
+    private void Movement()
     {
-        if(transform.position.x >= 12)
-        {
-            transform.position = new Vector3(12f, transform.position.y, 0f);
-        }
-
-        if (transform.position.x <= -12)
-        {
-            transform.position = new Vector3(-12f, transform.position.y, 0f);
-        }
+        float xPos = transform.position.x + -(Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed);
+        Vector3 targetPos = new Vector3(Mathf.Clamp(xPos, -12f, 12f), 2f, 0f);
+        transform.position = targetPos;
     }
 }
