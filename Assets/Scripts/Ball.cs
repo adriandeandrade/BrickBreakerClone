@@ -21,13 +21,15 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetButtonDown("Fire1") && !inPlay)
+        if (Input.GetButtonDown("Fire1") && !inPlay)
         {
             transform.parent = null;
             inPlay = true;
             rBody.isKinematic = false;
             rBody.AddForce(new Vector3(initialVelocity, initialVelocity, 0));
         }
+
+        print(rBody.velocity);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -36,5 +38,16 @@ public class Ball : MonoBehaviour
         GameObject ps = Instantiate(hitParticle, spawnPoint, Quaternion.identity);
         Destroy(ps, 3f);
         audioSource.PlayOneShot(bounce);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bottom"))
+        {
+            // TODO: Spawn ball dead effect.
+            inPlay = false;
+            GameManager.instance.ResetPlayer();
+            Destroy(gameObject);
+        }
     }
 }

@@ -21,7 +21,6 @@ public class Brick : MonoBehaviour
             cam.gameObject.GetComponent<CameraShake>().ShakeCamera();
             audioSource.PlayOneShot(glassBreak);
             Destroy(gameObject);
-            
         }
     }
 }
