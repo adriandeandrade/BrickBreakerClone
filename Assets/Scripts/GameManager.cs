@@ -18,29 +18,41 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        DontDestroyOnLoad(instance);
     }
 
     #endregion
-    
-    [SerializeField] private int bricksAmount;
+
+    public int bricksAmount;
     public int lives;
 
     [SerializeField] private GameObject paddleWithBallPrefab;
     private GameObject[] bricks;
 
+    public Color oneHitColor;
+    public Color twoHitColor;
+    public Color invincibleColor;
+
     private UIManager ui;
+
+    [HideInInspector] public bool gameStarted;
 
     private void Start()
     {
         bricks = GameObject.FindGameObjectsWithTag("Brick");
         bricksAmount = bricks.Length;
         ui = GetComponent<UIManager>();
+        gameStarted = false;
     }
 
     private void Update()
     {
+        ui.bricksRemainingWorldText.text = "BRICKS: " + bricksAmount.ToString();
 
+        if (bricksAmount <= 0)
+        {
+            ui.gameOverUI.SetActive(true);
+            ui.gameOverText.text = "YOU WIN!";
+        }
     }
 
 
@@ -53,10 +65,11 @@ public class GameManager : MonoBehaviour
             ui.livesText.text = "LIVES: " + lives.ToString();
             Instantiate(paddleWithBallPrefab, new Vector3(0f, 2f, 0f), Quaternion.identity);
         }
-        else if (lives < 0)
+        else
         {
-            // TODO: Show game-over screen.
-            GameManager.instance.ui.gameOverUI.SetActive(true);
+            ui.gameOverUI.SetActive(true);
+            ui.brickRemainingText.text = "Bricks Remaining: " + bricksAmount.ToString();
+            Cursor.visible = true;
         }
     }
 }

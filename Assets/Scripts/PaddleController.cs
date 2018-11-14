@@ -8,19 +8,17 @@ public class PaddleController : MonoBehaviour
 
     private Ball ball;
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
-        Movement();
+        if (GameManager.instance.gameStarted)
+        {
+            Movement();
+        }
     }
 
     private void Movement()
     {
-        float xPos = transform.position.x + -(Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed);
+        float xPos = transform.position.x + -(Input.GetAxis("Mouse X") * Time.deltaTime * moveSpeed);
         Vector3 targetPos = new Vector3(Mathf.Clamp(xPos, -12f, 12f), 2f, 0f);
         transform.position = targetPos;
     }

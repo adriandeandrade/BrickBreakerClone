@@ -5,6 +5,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private float initialVelocity = 600f;
+    [SerializeField] private float minVelocity = 18f;
 
     [SerializeField] private GameObject hitParticle;
     [SerializeField] private AudioClip bounce;
@@ -12,6 +13,8 @@ public class Ball : MonoBehaviour
     private AudioSource audioSource;
     private Rigidbody rBody;
     private bool inPlay;
+
+    private Vector3 currentVelocity;
 
     private void Awake()
     {
@@ -21,15 +24,19 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1") && !inPlay)
+        if (Input.GetButtonDown("Fire1") && !GameManager.instance.gameStarted)
         {
             transform.parent = null;
-            inPlay = true;
+            GameManager.instance.gameStarted = true;
             rBody.isKinematic = false;
             rBody.AddForce(new Vector3(initialVelocity, initialVelocity, 0));
+            Cursor.visible = false;
         }
+    }
 
-        print(rBody.velocity);
+    private void FixedUpdate()
+    {
+        currentVelocity = rBody.velocity;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -38,6 +45,9 @@ public class Ball : MonoBehaviour
         GameObject ps = Instantiate(hitParticle, spawnPoint, Quaternion.identity);
         Destroy(ps, 3f);
         audioSource.PlayOneShot(bounce);
+
+        CalculateBounce(other.contacts[0].normal);
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,4 +60,11 @@ public class Ball : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void CalculateBounce(Vector3 normal)
+    {
+        float speed = currentVelocity.magnitude;
+        Vector3 direction = Vector3.Reflect(currentVelocity.normalized, normal);
+        rBody.velocity = direction * Mathf.Max(speed, minVelocity);
+    } 
 }

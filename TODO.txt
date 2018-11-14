@@ -1,0 +1,9 @@
+*** TODO ***
+- 1 hit brick, 2 hit brick and invincible brick //
+- Menu music, game music
+- Game win sound
+- Game lose sound
+- Die sound
+- Die particle
+- Launch arrow // FIX**
+- Add powerups

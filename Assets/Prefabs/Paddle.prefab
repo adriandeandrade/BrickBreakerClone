@@ -88,7 +88,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366562896291054}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000029802318}
-  m_LocalPosition: {x: 0, y: 1.01, z: -0}
+  m_LocalPosition: {x: 0, y: 1.38, z: -0}
   m_LocalScale: {x: 0.18470632, y: 1, z: 1}
   m_Children:
   - {fileID: 4905434195699286}
@@ -381,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialVelocity: 900
+  minVelocity: 18
   hitParticle: {fileID: 1122684541993642, guid: 542eb37931dd2664e916d019fa182611,
     type: 2}
   bounce: {fileID: 8300000, guid: c7812583641c2b54d8e6a8ea90b42c10, type: 3}
