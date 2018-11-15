@@ -27,15 +27,22 @@ public class GameManager : MonoBehaviour
     public int lives;
 
     [SerializeField] private GameObject paddleWithBallPrefab;
+
     public GameObject arrow;
+    public GameObject powerupPrefab;
     private GameObject[] bricks;
 
     public Color oneHitColor;
     public Color twoHitColor;
     public Color invincibleColor;
 
+    public AudioClip winSound;
+    public AudioClip loseSound;
+    public AudioClip powerUpSound;
+
     private UIManager ui;
     private Ball ball;
+    private AudioSource audioSource;
 
     [HideInInspector] public bool gameStarted;
 
@@ -44,6 +51,7 @@ public class GameManager : MonoBehaviour
         bricks = GameObject.FindGameObjectsWithTag("Brick");
         bricksAmount = bricks.Length;
         ui = GetComponent<UIManager>();
+        audioSource = GetComponent<AudioSource>();
         gameStarted = false;
 
         if (ball == null)
@@ -55,6 +63,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         ui.bricksRemainingWorldText.text = "BRICKS: " + bricksAmount.ToString();
+        ui.livesText.text = "LIVES: " + lives.ToString();
 
         if (bricksAmount <= 0)
         {
@@ -66,6 +75,7 @@ public class GameManager : MonoBehaviour
 
             if (ball != null)
             {
+                audioSource.PlayOneShot(winSound);
                 Destroy(ball.gameObject);
             }
         }
@@ -92,6 +102,7 @@ public class GameManager : MonoBehaviour
         {
             ui.gameOverUI.SetActive(true);
             ui.brickRemainingText.text = "Bricks Remaining: " + bricksAmount.ToString();
+            audioSource.PlayOneShot(loseSound);
             Cursor.visible = true;
         }
     }

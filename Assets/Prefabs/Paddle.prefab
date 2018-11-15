@@ -205,7 +205,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 8
   m_CollisionDetection: 0
 --- !u!65 &65105144693115920
 BoxCollider:
@@ -381,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialVelocity: 40
+  ballSpeed: 50
   minVelocity: 40
   hitParticle: {fileID: 1122684541993642, guid: 542eb37931dd2664e916d019fa182611,
     type: 2}

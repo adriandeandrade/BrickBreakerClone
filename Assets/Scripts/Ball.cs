@@ -5,6 +5,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private float initialVelocity = 600f;
+    [SerializeField] private float ballSpeed = 200f;
     [SerializeField] private float minVelocity;
 
     [SerializeField] private GameObject hitParticle;
@@ -38,15 +39,11 @@ public class Ball : MonoBehaviour
             rBody.isKinematic = false;
             rBody.AddForce(GameManager.instance.arrow.transform.up * initialVelocity, ForceMode.Impulse);
         }
-
-        if (GameManager.instance.gameStarted)
-        {
-            print(rBody.velocity);
-        }
     }
 
     private void FixedUpdate()
     {
+        rBody.velocity = ballSpeed * (rBody.velocity.normalized);
         currentVelocity = rBody.velocity;
     }
 
@@ -57,7 +54,7 @@ public class Ball : MonoBehaviour
         Destroy(ps, 3f);
         audioSource.PlayOneShot(bounce);
 
-        CalculateBounce(other.contacts[0].normal);
+        //CalculateBounce(other.contacts[0].normal);
 
     }
 
@@ -76,6 +73,7 @@ public class Ball : MonoBehaviour
     {
         float speed = currentVelocity.magnitude;
         Vector3 direction = Vector3.Reflect(currentVelocity.normalized, normal);
-        rBody.velocity = direction * Mathf.Max(speed, minVelocity);
+        //rBody.velocity = direction * Mathf.Max(speed, minVelocity);
+        rBody.velocity = direction * initialVelocity;
     }
 }

@@ -13,11 +13,16 @@ public class Brick : MonoBehaviour
     private enum BrickType { OneHit, TwoHit, Invincible };
     [SerializeField] private BrickType brickType;
 
+    private GameObject powerupPrefab;
+
+    [SerializeField] private bool isPowerup;
+
     private void Start()
     {
         cam = Camera.main;
         audioSource = cam.gameObject.GetComponent<AudioSource>();
         rend = GetComponent<Renderer>();
+        powerupPrefab = GameManager.instance.powerupPrefab;
 
         switch (brickType)
         {
@@ -33,6 +38,13 @@ public class Brick : MonoBehaviour
                 rend.material.color = GameManager.instance.invincibleColor;
                 break;
         }
+
+        int randomNum = Random.Range(1, 100);
+
+        if(randomNum <= 10 && brickType != BrickType.Invincible)
+        {
+            isPowerup = true;
+        } 
     }
 
     private void OnCollisionEnter(Collision other)
@@ -48,6 +60,12 @@ public class Brick : MonoBehaviour
                     cam.gameObject.GetComponent<CameraShake>().ShakeCamera();
                     audioSource.PlayOneShot(glassBreak);
                     GameManager.instance.bricksAmount--;
+
+                    if(isPowerup)
+                    {
+                        SpawnPowerup();
+                    }
+                    
                     Destroy(gameObject);
                     break;
 
@@ -58,5 +76,10 @@ public class Brick : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void SpawnPowerup()
+    {
+        Instantiate(powerupPrefab, transform.position, Quaternion.identity);
     }
 }
