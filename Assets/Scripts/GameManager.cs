@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public int lives;
 
     [SerializeField] private GameObject paddleWithBallPrefab;
+    public GameObject arrow;
     private GameObject[] bricks;
 
     public Color oneHitColor;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
     public Color invincibleColor;
 
     private UIManager ui;
+    private Ball ball;
 
     [HideInInspector] public bool gameStarted;
 
@@ -42,6 +45,11 @@ public class GameManager : MonoBehaviour
         bricksAmount = bricks.Length;
         ui = GetComponent<UIManager>();
         gameStarted = false;
+
+        if (ball == null)
+        {
+            ball = FindObjectOfType<Ball>();
+        }
     }
 
     private void Update()
@@ -52,9 +60,22 @@ public class GameManager : MonoBehaviour
         {
             ui.gameOverUI.SetActive(true);
             ui.gameOverText.text = "YOU WIN!";
+            gameStarted = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            if (ball != null)
+            {
+                Destroy(ball.gameObject);
+            }
+        }
+
+        // Debug
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(1);
         }
     }
-
 
     public void ResetPlayer()
     {
@@ -63,7 +84,9 @@ public class GameManager : MonoBehaviour
             Destroy(GameObject.FindGameObjectWithTag("Paddle"));
             lives -= 1;
             ui.livesText.text = "LIVES: " + lives.ToString();
-            Instantiate(paddleWithBallPrefab, new Vector3(0f, 2f, 0f), Quaternion.identity);
+            GameObject paddle = Instantiate(paddleWithBallPrefab, new Vector3(0f, 2f, 0f), Quaternion.identity);
+            ball = paddle.GetComponentInChildren<Ball>();
+            arrow.SetActive(true);
         }
         else
         {

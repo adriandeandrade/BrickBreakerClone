@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private float initialVelocity = 600f;
-    [SerializeField] private float minVelocity = 18f;
+    [SerializeField] private float minVelocity;
 
     [SerializeField] private GameObject hitParticle;
     [SerializeField] private AudioClip bounce;
@@ -15,6 +15,12 @@ public class Ball : MonoBehaviour
     private bool inPlay;
 
     private Vector3 currentVelocity;
+
+    private void Start()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
 
     private void Awake()
     {
@@ -28,9 +34,14 @@ public class Ball : MonoBehaviour
         {
             transform.parent = null;
             GameManager.instance.gameStarted = true;
+            GameManager.instance.arrow.SetActive(false);
             rBody.isKinematic = false;
-            rBody.AddForce(new Vector3(initialVelocity, initialVelocity, 0));
-            Cursor.visible = false;
+            rBody.AddForce(GameManager.instance.arrow.transform.up * initialVelocity, ForceMode.Impulse);
+        }
+
+        if (GameManager.instance.gameStarted)
+        {
+            print(rBody.velocity);
         }
     }
 
@@ -55,7 +66,7 @@ public class Ball : MonoBehaviour
         if (other.CompareTag("Bottom"))
         {
             // TODO: Spawn ball dead effect.
-            inPlay = false;
+            GameManager.instance.gameStarted = false;
             GameManager.instance.ResetPlayer();
             Destroy(gameObject);
         }
@@ -66,5 +77,5 @@ public class Ball : MonoBehaviour
         float speed = currentVelocity.magnitude;
         Vector3 direction = Vector3.Reflect(currentVelocity.normalized, normal);
         rBody.velocity = direction * Mathf.Max(speed, minVelocity);
-    } 
+    }
 }

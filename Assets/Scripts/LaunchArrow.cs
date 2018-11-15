@@ -11,9 +11,8 @@ public class LaunchArrow : MonoBehaviour
     {
         float zRot = Input.GetAxis("Mouse X") * Time.deltaTime * 100f;
         Vector3 currentRot = transform.localRotation.eulerAngles;
-        currentRot.z = Mathf.Clamp(currentRot.z + zRot, minAngle, maxAngle);
-        transform.localRotation = Quaternion.Euler(currentRot);
+        currentRot.z = Utility.ClampAngle(currentRot.z + zRot, minAngle, maxAngle);
 
-        print(transform.localEulerAngles.z);
+        transform.localRotation = Quaternion.Euler(currentRot);
     }
 }

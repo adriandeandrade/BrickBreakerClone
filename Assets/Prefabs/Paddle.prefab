@@ -380,8 +380,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9e5d6a89b6b5347a166b8620ee4546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialVelocity: 900
-  minVelocity: 18
+  initialVelocity: 40
+  minVelocity: 40
   hitParticle: {fileID: 1122684541993642, guid: 542eb37931dd2664e916d019fa182611,
     type: 2}
   bounce: {fileID: 8300000, guid: c7812583641c2b54d8e6a8ea90b42c10, type: 3}

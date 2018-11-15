@@ -58,13 +58,5 @@ public class Brick : MonoBehaviour
                     break;
             }
         }
-
-        //if(other.collider.CompareTag("Ball") && brickType != BrickType.Invincible)
-        //{
-        //    cam.gameObject.GetComponent<CameraShake>().ShakeCamera();
-        //    audioSource.PlayOneShot(glassBreak);
-        //    GameManager.instance.bricksAmount--;
-        //    Destroy(gameObject);
-        //}
     }
 }
