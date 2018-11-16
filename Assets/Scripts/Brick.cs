@@ -24,27 +24,7 @@ public class Brick : MonoBehaviour
         rend = GetComponent<Renderer>();
         powerupPrefab = GameManager.instance.powerupPrefab;
 
-        switch (brickType)
-        {
-            case BrickType.OneHit:
-                rend.material.color = GameManager.instance.oneHitColor;
-                break;
-
-            case BrickType.TwoHit:
-                rend.material.color = GameManager.instance.twoHitColor;
-                break;
-
-            case BrickType.Invincible:
-                rend.material.color = GameManager.instance.invincibleColor;
-                break;
-        }
-
-        int randomNum = Random.Range(1, 100);
-
-        if(randomNum <= 10 && brickType != BrickType.Invincible)
-        {
-            isPowerup = true;
-        } 
+        SetupBrick();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -78,8 +58,33 @@ public class Brick : MonoBehaviour
         }
     }
 
+    private void SetupBrick()
+    {
+        switch (brickType)
+        {
+            case BrickType.OneHit:
+                rend.material.color = GameManager.instance.oneHitColor;
+                break;
+
+            case BrickType.TwoHit:
+                rend.material.color = GameManager.instance.twoHitColor;
+                break;
+
+            case BrickType.Invincible:
+                rend.material.color = GameManager.instance.invincibleColor;
+                break;
+        }
+
+        int randomNum = Random.Range(1, 100);
+
+        if (randomNum <= 10 && brickType != BrickType.Invincible)
+        {
+            isPowerup = true;
+        }
+    }
+
     private void SpawnPowerup()
     {
-        Instantiate(powerupPrefab, transform.position, Quaternion.identity);
+        GameObject powerUp = Instantiate(powerupPrefab, transform.position, Quaternion.identity);
     }
 }

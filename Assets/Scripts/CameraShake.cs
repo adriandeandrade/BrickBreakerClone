@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraShake : MonoBehaviour {
-
-    private float shakeTimer;
-    private float shakeAmount;
-
+public class CameraShake : MonoBehaviour
+{
     [SerializeField] private float intensity;
 
     public void ShakeCamera()

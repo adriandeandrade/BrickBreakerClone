@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject arrow;
     public GameObject powerupPrefab;
+    public GameObject ballPrefab;
     private GameObject[] bricks;
 
     public Color oneHitColor;
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
 
     [HideInInspector] public bool gameStarted;
+    [HideInInspector] public bool secondBall;
 
     private void Start()
     {
@@ -53,6 +55,7 @@ public class GameManager : MonoBehaviour
         ui = GetComponent<UIManager>();
         audioSource = GetComponent<AudioSource>();
         gameStarted = false;
+        secondBall = false;
 
         if (ball == null)
         {

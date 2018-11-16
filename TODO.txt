@@ -1,10 +1,5 @@
 *** TODO ***
-- Menu music, game music
-- Game win sound
-- Game lose sound
-- Die sound
 - Die particle
 
 - Add powerups
- - Extra life
  - 2 balls
